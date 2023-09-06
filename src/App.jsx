@@ -35,27 +35,41 @@ const Main = () => {
 
   const handleSaveClick = () => {
     setSavedColors([...savedColors, color]);
-    console.log(savedColors);
+  };
+
+  const deleteColor = (id) => {
+    let newColors = savedColors.filter((color, index) => {
+      return index !== Number(id.target.id);
+    });
+
+    setSavedColors(newColors);
   };
 
   return (
     <div style={{ backgroundColor: color }} className='main'>
       <div className='color-tracker-container'>
-        <ul className='colors-list'>
-          {savedColors &&
-            savedColors.map((color, index) => {
-              return (
-                <div
-                  key={index}
-                  style={{ backgroundColor: color }}
-                  className='color-stamp'
-                >
-                  <span>&amp;times</span>
-                  <li>{color}</li>
-                </div>
-              );
-            })}
-        </ul>
+        {savedColors.length > 0 ? <p>Saved Colors:</p> : null}
+        {savedColors.map((color, index) => {
+          return (
+            <div
+              key={index}
+              id={index}
+              color={color}
+              style={{ backgroundColor: color }}
+              className='color-stamp'
+            >
+              <span
+                key={index}
+                id={index}
+                onClick={deleteColor}
+                className='close'
+              >
+                x
+              </span>
+              {color}
+            </div>
+          );
+        })}
       </div>
       <h1>{color}</h1>
 
